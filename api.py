@@ -35,6 +35,7 @@ def wall_list():
         returns: dictionary with messages list + result code.
     """
 
+
     return {
         "result": "OK",
         "messages": session.setdefault('wall', DEFAULT_MESSAGES),
@@ -59,3 +60,5 @@ def wall_add(msg):
     result["result"] = "Message Received"
 
     return result
+
+

@@ -2,14 +2,28 @@ $(document).ready(function () {
     // Normally, JavaScript runs code at the time that the <script>
     // tags loads the JS. By putting this inside a jQuery $(document).ready()
     // function, this code only gets run when the document finishing loading.
-
+    // displayMessages();
     $("#message-form").submit(handleFormSubmit);
+    
+    // $("#clear").on("click", my_alert);
+    $("#clear").on("click", function () {
+        $("#message-container").empty();
+        // session.clear();
+    });
+
 });
+
+// function my_alert(param){
+//     alert("butts");
+// }
+
+// });
 
 
 /**
  * Handle submission of the form.
  */
+
 function handleFormSubmit(evt) {
     evt.preventDefault();
 
@@ -19,8 +33,11 @@ function handleFormSubmit(evt) {
     console.log("handleFormSubmit: ", msg);
     addMessage(msg);
 
+
     // Reset the message container to be empty
     textArea.val("");
+
+
 }
 
 
@@ -34,10 +51,30 @@ function addMessage(msg) {
         function (data) {
             console.log("addMessage: ", data);
             displayResultStatus(data.result);
+            displayMessages();
         }
     );
 }
 
+
+// function clearMessages() {
+//     $("#clear").on("click", alert("worked!"));
+// }
+
+function displayMessages() {
+
+    $.get("/api/wall/list", function(data) {
+        // console.log(data) 
+        $("#message-container").empty();
+        
+        for (var i=0; i<data.messages.length; i++) {
+            var message_text = data.messages[i].message;
+            $('#message-container').prepend('<li class = "list-group-item">' + message_text + '</li>');
+        }
+    }
+  
+    );
+}
 
 /**
  * This is a helper function that does nothing but show a section of the
@@ -68,3 +105,7 @@ function displayResultStatus(resultMsg) {
         }, 2000);
     });
 }
+
+
+
+
