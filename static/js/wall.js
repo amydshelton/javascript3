@@ -4,21 +4,7 @@ $(document).ready(function () {
     // function, this code only gets run when the document finishing loading.
     // displayMessages();
     $("#message-form").submit(handleFormSubmit);
-    
-    // $("#clear").on("click", my_alert);
-
     });
-    // $("#message-container").empty();
-        // session.clear();
-
-
-
-
-// function my_alert(param){
-//     alert("butts");
-// }
-
-// });
 
 
 /**
@@ -38,6 +24,11 @@ function handleFormSubmit(evt) {
     // Reset the message container to be empty
     textArea.val("");
 
+    // Add time-limited attribute to button to add disabled property
+    $("#message-send").prop("disabled",true);
+
+    setTimeout(function(){
+        $("#message-send").prop("disabled",false);}, 5000);
 
 }
 
