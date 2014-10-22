@@ -61,4 +61,19 @@ def wall_add(msg):
 
     return result
 
+def wall_clear():
+    session['wall'] = DEFAULT_MESSAGES
+    result = wall_list()
+    result["result"] = "Wall Cleared"
+    return result
+
+# def wall_clear():
+#     """Clear messages"""
+#       return {
+#         "result": "OK",
+#         "messages": session.setdefault('wall', DEFAULT_MESSAGES),
+#     }
+
+
+
 

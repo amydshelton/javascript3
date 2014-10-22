@@ -6,12 +6,13 @@ $(document).ready(function () {
     $("#message-form").submit(handleFormSubmit);
     
     // $("#clear").on("click", my_alert);
-    $("#clear").on("click", function () {
-        $("#message-container").empty();
-        // session.clear();
-    });
 
-});
+    });
+    // $("#message-container").empty();
+        // session.clear();
+
+
+
 
 // function my_alert(param){
 //     alert("butts");
@@ -109,3 +110,9 @@ function displayResultStatus(resultMsg) {
 
 
 
+$("#clear").click(function(){
+    $.get('/api/wall/clear', function(result){
+    displayMessages();
+});
+
+});
