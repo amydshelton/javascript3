@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, make_response
 
 from api import wall_list, wall_add, wall_error, wall_clear
 
+from HTMLParser import HTMLParser
 
 app = Flask(__name__)
 
@@ -66,7 +67,15 @@ def add_message():
     # Get the message from the "m" argument passed in the POST.
     # (to get things from a GET response, we've used request.args.get();
     # this is the equivalent for getting things from a POST response)
-    msg = request.form.get('m').strip()
+   
+
+    msg = request.form.get('m')
+
+    msg = clean_html(msg)
+
+    msg = msg.strip()
+
+
 
     if msg is None:
         result = wall_error("You did not specify a message to set.")
@@ -76,10 +85,32 @@ def add_message():
 
     else:
         result = wall_add(msg)
-        # print "------------------"
-        # print result
+
 
     return _convert_to_JSON(result)
+
+
+
+class myHTMLparser(HTMLParser):
+    def __init__(self):
+        HTMLParser.__init__(self)
+        self.data = ""
+
+    def handle_starttag(self, tag, attrs):
+        if tag:
+            tag = ""
+            # print tag
+    def handle_endtag(self, tag):
+        if tag:
+            tag = ""
+    def handle_data(self, data):
+        self.data+= data + ' '
+
+def clean_html(message_text):
+    parser = myHTMLparser()
+    parser.feed(message_text)
+    return parser.data
+
 
 @app.route("/api/wall/clear")
 def clear_wall():
