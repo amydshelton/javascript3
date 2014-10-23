@@ -107,3 +107,15 @@ $("#clear").click(function(){
 });
 
 });
+
+$("#delete-latest-msg").click
+( function()
+    {
+        alert("You're about to delete your most recent message!");
+        $.get('/delete_latest_msg', function() {
+            displayMessages();
+            }
+        );
+
+    }
+);

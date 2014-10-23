@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask, request, render_template, make_response
+from flask import Flask, request, render_template, make_response, session
 
 from api import wall_list, wall_add, wall_error, wall_clear
 
@@ -109,7 +109,10 @@ class myHTMLparser(HTMLParser):
 def clean_html(message_text):
     parser = myHTMLparser()
     parser.feed(message_text)
+
     return parser.data
+
+    
 
 
 @app.route("/api/wall/clear")
@@ -119,6 +122,14 @@ def clear_wall():
     return _convert_to_JSON(result)
 
 
+@app.route("/delete_latest_msg")
+def delete_latest_msg():
+    full_dict = wall_list()
+    just_msgs = full_dict['messages']
+    last_msg = just_msgs.pop()
+    return _convert_to_JSON(last_msg)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
+
